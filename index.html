@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Barril Burger — Experiencia al fuego</title>
+  <meta name="description" content="Esto no es una hamburguesa cualquiera... Es una experiencia al barril: jugosa, ahumada y con ese sabor real que solo logra el fuego." />
+
+  <style>
+    /* ---------- VARIABLES ---------- */
+    :root{
+      --bg-dark: #0f0f0f;
+      --accent-red: #b22222;      /* rojo oscuro */
+      --accent-gold: #c9a34a;     /* dorado */
+      --card-bg: #141414;
+      --muted: #d1cfcf;
+      --glass: rgba(255,255,255,0.04);
+      --radius: 12px;
+      --max-width: 1100px;
+    }
+
+    /* ---------- BASE ---------- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(180deg,#080808 0%, #0f0f0f 100%);
+      color: #fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .container{
+      width:90%;
+      max-width:var(--max-width);
+      margin:0 auto;
+    }
+
+    /* ---------- HEADER / NAV ---------- */
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:100;
+      background: linear-gradient(180deg, rgba(10,10,10,0.85), rgba(10,10,10,0.6));
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:12px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:700;
+      font-size:1.15rem;
+      letter-spacing:0.4px;
+    }
+    .brand .logo {
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent-red), #7a0f0f);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5), inset 0 2px 6px rgba(255,255,255,0.03);
+    }
+    .brand .logo img{width:28px;height:28px;object-fit:cover;border-radius:6px}
+
+    nav .nav-links{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .btn{
+      background:var(--accent-red);
+      border:0;
+      color:white;
+      padding:9px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      transition: transform .14s ease, box-shadow .14s ease, opacity .14s ease;
+      box-shadow: 0 6px 18px rgba(178,34,34,0.14);
+    }
+    .btn:hover{transform:translateY(-3px); box-shadow: 0 10px 30px rgba(178,34,34,0.18)}
+    .btn.ghost{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      padding:8px 12px;
+      color:var(--muted);
+      font-weight:600;
+      border-radius:10px;
+    }
+    .btn.gold{
+      background: linear-gradient(90deg,var(--accent-gold), #b98e35);
+      color:#111;
+    }
+
+    /* ---------- HERO / HOME ---------- */
+    .hero{
+      min-height:78vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      margin-top:64px; /* header */
+      overflow:hidden;
+      border-bottom-left-radius:24px;
+      border-bottom-right-radius:24px;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image: url("https://images.unsplash.com/photo-1550317138-10000687a72b?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=6a1b6f6f8e6b1e0c3a9f3ca2b7a1edea");
+      background-size:cover;
+      background-position:center;
+      filter:brightness(.42) contrast(1.03) saturate(1.04);
+      z-index:0;
+      transform:scale(1.03);
+    }
+
+    .hero-overlay{
+      position:relative;
+      z-index:1;
+      width:100%;
+      padding:70px 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .hero-card{
+      width:100%;
+      max-width:1200px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding:28px;
+      background: linear-gradient(180deg, rgba(20,20,20,0.45), rgba(10,10,10,0.4));
+      border-radius:18px;
+      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-text h1{
+      margin:0 0 10px;
+      font-size:2.05rem;
+      line-height:1.05;
+      font-weight:800;
+      letter-spacing:-0.6px;
+    }
+    .tagline{
+      color:var(--muted);
+      margin-bottom:16px;
+      font-weight:600;
+    }
+    .hero-cta{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .hero-attr{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    .hero-image{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));
+      border-radius:14px;
+      padding:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }
+    .hero-image img{
+      display:block;
+      width:100%;
+      max-width:380px;
+      border-radius:10px;
+      object-fit:cover;
+      transform:translateY(0);
+    }
+
+    /* ---------- MENU ---------- */
+    section#menu{
+      padding:60px 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.03), transparent);
+    }
+
+    .menu-title{
+      text-align:center;
+      margin-bottom:28px;
+    }
+    .menu-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:22px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--card-bg), rgba(10,10,10,0.92));
+      padding:16px;
+      border-radius:14px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .card .imgwrap{
+      width:140px;
+      height:110px;
+      flex-shrink:0;
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.55);
+      background:var(--glass);
+    }
+    .card img{width:100%;height:100%;object-fit:cover;display:block}
+    .card .content{flex:1}
+    .card h3{margin:0;font-size:1.05rem;margin-bottom:6px}
+    .price{font-weight:800;color:var(--accent-gold)}
+    .card p{margin:0;color:var(--muted);font-size:0.95rem}
+
+    .card .actions{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    /* topping selector */
+    .topping{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-top:10px;
+    }
+    .topping select{
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:transparent;
+      color:var(--muted);
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer{
+      padding:36px 0;
+      background:#0b0b0b;
+      border-top:1px solid rgba(255,255,255,0.03);
+      margin-top:28px;
+    }
+    .footer-grid{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+    .socials a{
+      display:inline-block;
+      padding:8px 10px;
+      border-radius:8px;
+      margin-right:8px;
+      background:rgba(255,255,255,0.02);
+      color:var(--muted);
+      font-weight:700;
+    }
+    .small{font-size:0.92rem;color:var(--muted)}
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width:920px){
+      .hero-card{grid-template-columns:1fr 1fr; gap:18px}
+      .menu-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:680px){
+      .hero-card{grid-template-columns:1fr; text-align:center}
+      .hero-image{order: -1}
+      .brand .logo{width:38px;height:38px}
+    }
+
+    /* ---------- MINOR UI ---------- */
+    .location-btn{
+      background:transparent;
+      border:1px dashed rgba(255,255,255,0.06);
+      padding:8px 12px;
+      border-radius:10px;
+      color:var(--muted);
+      cursor:pointer;
+    }
+
+    .cart-floating{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      background:linear-gradient(180deg,var(--accent-red), #8a1010);
+      color:#fff;
+      padding:12px 14px;
+      border-radius:999px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.5);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      z-index:120;
+      cursor:pointer;
+    }
+    .badge{
+      background:rgba(255,255,255,0.12);
+      padding:4px 8px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=3d3a3f0af5c6f6b2d6eaa9b6f5ef8e9b" alt="logo"></div>
+        Barril Burger
+      </div>
+
+      <nav>
+        <div class="nav-links">
+          <button class="btn ghost" id="btn-ubicacion">Ubicación</button>
+          <button class="btn ghost" id="btn-menu">Ver Menú</button>
+          <button class="btn" id="btn-orden">Ordenar Ahora</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO / HOME -->
+  <main>
+    <section class="hero" aria-label="Home - Barril Burger">
+      <div class="hero-overlay container">
+        <div class="hero-card" role="region" aria-label="Presentación">
+          <div class="hero-text">
+            <h1>Esto no es una hamburguesa cualquiera...</h1>
+            <div class="tagline">Es una experiencia al barril: jugosa, ahumada y con ese sabor real que solo logra el fuego.</div>
+            <div style="font-weight:700; color:var(--muted);">¿Sencilla o Doble carne? Tú decides, nosotros encendemos la parrilla.</div>
+
+            <div class="hero-cta">
+              <button class="btn gold" id="hero-menu">Ver Menú</button>
+              <button class="btn" id="hero-orden">Ordenar Ahora</button>
+              <button class="btn ghost" id="hero-ubicacion">Ubicación</button>
+            </div>
+
+            <div class="hero-attr">
+              <span class="small">Envios | Para llevar | Pago efectivo y tarjeta</span>
+            </div>
+          </div>
+
+          <div class="hero-image" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.0.3&s=3d3a3f0af5c6f6b2d6eaa9b6f5ef8e9b" alt="Hamburguesa jugosa al fuego">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu" class="container" aria-labelledby="menu-heading">
+      <div class="menu-title">
+        <h2 id="menu-heading" style="margin-bottom:6px;">Menú destacado</h2>
+        <p class="small" style="margin-top:0">Elige tu favorita y agrégala a la orden. ¡Listo para encender la parrilla!</p>
+      </div>
+
+      <div class="menu-grid" role="list">
+        <!-- Sencilla -->
+        <article class="card" role="listitem" aria-label="Hamburguesa sencilla">
+          <div class="imgwrap"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=8efc66f7a8a2e9c8bd9d0c3b6e2b1a4d" alt="Hamburguesa sencilla"></div>
+          <div class="content">
+            <h3>Hamburguesa Sencilla</h3>
+            <div class="price">$20.000</div>
+            <p>Carne a la parrilla, lechuga fresca, tomate, cebolla y nuestro aderezo secreto.</p>
+
+            <div class="actions">
+              <button class="btn" data-item="Sencilla" data-price="20000">Agregar a la orden</button>
+              <button class="btn ghost" onclick="showPreview('Sencilla')">Vista</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Doble carne -->
+        <article class="card" role="listitem" aria-label="Hamburguesa doble carne">
+          <div class="imgwrap"><img src="https://images.unsplash.com/photo-1540045701-76a99a5d6f5d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=fd1b2f2f1b7a3c1d9b8f5e4c6a7b0d9c" alt="Hamburguesa doble carne"></div>
+          <div class="content">
+            <h3>Hamburguesa Doble carne</h3>
+            <div class="price">$27.000</div>
+            <p>Dos jugosas carnes al fuego, queso derretido y nuestra salsa ahumada.</p>
+
+            <div class="topping">
+              <label for="topping-select" style="font-weight:700;color:var(--muted)">Topping:</label>
+              <select id="topping-select" aria-label="Seleccione topping para doble carne">
+                <option value="Tajada madura">Tajada madura 🍌</option>
+                <option value="Piña asada">Piña asada 🍍</option>
+              </select>
+            </div>
+
+            <div class="actions">
+              <button class="btn" data-item="Doble carne" data-price="27000" id="add-doble">Agregar a la orden</button>
+              <button class="btn ghost" onclick="showPreview('Doble carne')">Vista</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div style="max-width:540px">
+          <h3 style="margin:0 0 8px 0">Barril Burger</h3>
+          <p class="small">Dirección: Calle Falsa 123, Tu Ciudad. Horario: Lun - Dom 11:00 - 23:00</p>
+          <div style="margin-top:12px">
+            <button class="location-btn" id="map-link">Abrir en Maps</button>
+          </div>
+        </div>
+
+        <div>
+          <div style="margin-bottom:10px; font-weight:700">Contacto</div>
+          <div class="small">Correo: <a href="mailto:contacto@barrilburger.example" style="color:var(--muted)">contacto@barrilburger.example</a></div>
+          <div class="small" style="margin-top:8px">Tel: +57 300 000 0000</div>
+
+          <div style="margin-top:12px">
+            <div style="font-weight:700; margin-bottom:8px">Síguenos</div>
+            <div class="socials">
+              <a href="#" aria-label="Instagram">Instagram</a>
+              <a href="#" aria-label="Facebook">Facebook</a>
+              <a href="#" aria-label="TikTok">TikTok</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container" style="margin-top:20px; text-align:center; opacity:0.8; color:var(--muted); font-size:0.9rem;">
+        © <span id="year"></span> Barril Burger — Hecho con fuego y corazón.
+      </div>
+    </footer>
+  </main>
+
+  <!-- FLOATING CART -->
+  <div class="cart-floating" id="cart-btn" title="Ver orden">
+    <div style="font-weight:800">Orden</div>
+    <div class="badge" id="cart-count">0</div>
+  </div>
+
+  <script>
+    // ---------- UTIL ----------
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const smoothScrollTo = (el) => {
+      const top = typeof el === 'number' ? el : el.getBoundingClientRect().top + window.pageYOffset - 64;
+      window.scrollTo({ top, behavior: 'smooth' });
+    };
+
+    // Buttons
+    const btnMenu = document.getElementById('btn-menu');
+    const heroMenu = document.getElementById('hero-menu');
+    const btnOrden = document.getElementById('btn-orden');
+    const heroOrden = document.getElementById('hero-orden');
+    const btnUbic = document.getElementById('btn-ubicacion');
+    const heroUbic = document.getElementById('hero-ubicacion');
+    const menuSection = document.getElementById('menu');
+    const footer = document.querySelector('footer');
+
+    // scroll handlers
+    btnMenu?.addEventListener('click', () => smoothScrollTo(menuSection));
+    heroMenu?.addEventListener('click', () => smoothScrollTo(menuSection));
+    btnOrden?.addEventListener('click', () => smoothScrollTo(menuSection)); // ordenar lleva al menú
+    heroOrden?.addEventListener('click', () => smoothScrollTo(menuSection));
+    btnUbic?.addEventListener('click', () => smoothScrollTo(footer));
+    heroUbic?.addEventListener('click', () => smoothScrollTo(footer));
+
+    // Maps button (opens search in new tab with the address prefilled)
+    document.getElementById('map-link').addEventListener('click', () => {
+      const address = encodeURIComponent('Calle Falsa 123, Tu Ciudad');
+      window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank');
+    });
+    document.getElementById('btn-ubicacion').addEventListener('click', () => {
+      const address = encodeURIComponent('Calle Falsa 123, Tu Ciudad');
+      window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank');
+    });
+
+    // ---------- ORDER / CART ----------
+    let cart = [];
+
+    function updateCartCount(){
+      const countEl = document.getElementById('cart-count');
+      const total = cart.reduce((sum, it) => sum + it.qty, 0);
+      countEl.textContent = total;
+    }
+
+    // add to order handler for "Sencilla" and "Doble carne"
+    document.querySelectorAll('button[data-item]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const item = btn.getAttribute('data-item');
+        const price = Number(btn.getAttribute('data-price')) || 0;
+        let selectedTopping = null;
+
+        if(item.toLowerCase().includes('doble')){
+          const sel = document.getElementById('topping-select');
+          selectedTopping = sel ? sel.value : '';
+        }
+
+        // Add to cart array (simple)
+        const cartItem = { id: Date.now(), name: item, topping: selectedTopping, price, qty: 1 };
+        cart.push(cartItem);
+        updateCartCount();
+
+        // Show friendly alert
+        const topText = selectedTopping ? ` con ${selectedTopping}` : '';
+        alert(`Has agregado la Hamburguesa ${item}${topText} a tu orden 🍔`);
+      });
+    });
+
+    // Floating cart click: show simple order summary
+    document.getElementById('cart-btn').addEventListener('click', () => {
+      if(cart.length === 0){
+        alert('Tu orden está vacía. Agrega una hamburguesa para empezar 🍔');
+        return;
+      }
+      let message = 'Tu orden:\n\n';
+      let total = 0;
+      cart.forEach((it, idx) => {
+        const top = it.topping ? ` (${it.topping})` : '';
+        message += `${idx+1}. ${it.name}${top} — $${Number(it.price).toLocaleString()}\n`;
+        total += Number(it.price) * it.qty;
+      });
+      message += `\nTotal estimado: $${total.toLocaleString()}\n\nGracias por tu pedido. (Simulación)`;
+      alert(message);
+    });
+
+    // small preview function for "Vista" buttons
+    function showPreview(name){
+      if(name.toLowerCase().includes('doble')){
+        const topping = document.getElementById('topping-select')?.value || '';
+        alert('Hamburguesa Doble carne\n\nDos carnes, queso, salsa ahumada.' + (topping ? `\nTopping seleccionado: ${topping}` : '') + '\n\n$27.000');
+      } else {
+        alert('Hamburguesa Sencilla\n\nCarne a la parrilla, vegetales frescos y aderezo secreto.\n\n$20.000');
+      }
+    }
+    // make function globally accessible for inline onclick
+    window.showPreview = showPreview;
+
+    // Accessibility: allow keyboard hitting Enter on focused hero buttons
+    ['hero-menu','hero-orden','hero-ubicacion'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Enter' || ev.key === ' ') el.click();
+      });
+    });
+
+    // small tweak: if user scrolls up, header stays, but add shadow when scrolled
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if(window.scrollY > 20) header.style.boxShadow = '0 8px 28px rgba(0,0,0,0.6)';
+      else header.style.boxShadow = 'none';
+    });
+  </script>
+</body>
+</html>
